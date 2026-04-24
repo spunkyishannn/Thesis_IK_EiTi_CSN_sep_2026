@@ -1,0 +1,85 @@
+﻿# =============================================================================
+# .gitignore — ML IDS Thesis Repository
+# =============================================================================
+
+# --- Byte-compiled / optimized / DLL files ---
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Large Datasets & Captures (300+ GB raw data) ---
+*.pcap
+*.pcapng
+*.csv
+*.parquet
+*.tar.gz
+*.zip
+*.7z
+*.rar
+*.iso
+
+# Keep directory structure in git
+!data/**/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/flows/*
+!data/flows/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# --- Model Binaries & Checkpoints ---
+*.joblib
+*.pkl
+*.pt
+*.pth
+*.bin
+*.h5
+*.onnx
+
+# --- LaTeX Compilation Intermediaries ---
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.app
+latex/*.log
+latex/*.aux
+latex/*.bbl
+latex/*.bcf
+latex/*.blg
+latex/*.lof
+latex/*.lot
+latex/*.out
+latex/*.run.xml
+latex/*.toc
+
+# --- IDE / OS specific ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
