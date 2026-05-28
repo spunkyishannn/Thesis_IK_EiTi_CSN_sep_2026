@@ -1,0 +1,103 @@
+# lab/docker-compose.yml  —  V2 Network Laboratory
+# ===================================================
+# Topology:
+#   attacker  172.20.0.10   hping3, hydra, nmap, ncrack, hulk, slowloris
+#   client    172.20.0.20   (reserved — benign traffic now via tcpreplay in monitor)
+#   target    172.20.0.30   Apache2 (80/443), vsftpd (21), OpenSSH (22), bind9 (53), netcat (5000-5002)
+#   monitor   host network  tcpdump + tcpreplay on Docker bridge
+#
+# Benign traffic methodology:
+#   The CICIDS2017 Monday PCAP (pure benign, no attacks) is replayed by the monitor
+#   container directly onto the Docker bridge using tcpreplay. This gives benign flows
+#   with statistically identical features to the external validation dataset, eliminating
+#   the machine-speed timing artifacts that corrupted V1.
+#
+# Network realism:
+#   tc netem (1ms delay, 0.3ms jitter) is applied to attacker + target eth0 at startup,
+#   simulating a realistic 100Mbps LAN. This makes TCP slow-start and IAT distributions
+#   consistent with CICIDS2017's physical-machine capture environment.
+#
+# Usage:
+#   cd S:\ML IDS THESIS\lab
+#   docker compose up -d --build
+#   python scripts/orchestrate.py --domain D01 --pilot
+
+version: "3.9"
+
+networks:
+  lab_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+
+services:
+
+  attacker:
+    build:
+      context: docker/attacker
+      dockerfile: Dockerfile
+    container_name: ids_v2_attacker
+    hostname: attacker
+    networks:
+      lab_net:
+        ipv4_address: 172.20.0.10
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN    # required for tc netem + hping3
+    volumes:
+      - ./wordlists:/wordlists:ro
+      - ./scripts/attacks:/attacks:ro
+    command: ["sleep", "infinity"]
+    restart: "no"
+
+  client:
+    build:
+      context: docker/client
+      dockerfile: Dockerfile
+    container_name: ids_v2_client
+    hostname: client
+    networks:
+      lab_net:
+        ipv4_address: 172.20.0.20
+    cap_add:
+      - NET_ADMIN    # required for tc netem
+    volumes:
+      - ./scripts/benign:/benign:ro
+    command: ["sleep", "infinity"]
+    restart: "no"
+    depends_on:
+      - target
+
+  target:
+    build:
+      context: docker/target
+      dockerfile: Dockerfile
+    container_name: ids_v2_target
+    hostname: target
+    networks:
+      lab_net:
+        ipv4_address: 172.20.0.30
+    cap_add:
+      - NET_ADMIN    # required for tc netem + service binding
+    command: ["/start.sh"]
+    restart: "no"
+
+  monitor:
+    build:
+      context: docker/monitor
+      dockerfile: Dockerfile
+    container_name: ids_v2_monitor
+    network_mode: "host"
+    privileged: true          # required for tcpdump + tcpreplay on host bridge
+    volumes:
+      - ../data/raw/pcaps:/data/pcaps          # PCAP output dir + benign_template.pcap lives here
+      - ../data/raw/cicids2017/pcaps:/data/cicids2017/pcaps:ro   # Monday PCAP source (read-only)
+      - ../data/flows:/data/flows              # CICFlowMeter CSV output dir (extract_and_label.py)
+      - ./scripts:/scripts:ro                  # for running prep_cicids_benign.py inside container
+    command: ["sleep", "infinity"]
+    restart: "no"
