@@ -1,0 +1,149 @@
+# Feature Schema V2
+# ===================
+# Generated 2026-08-13 from the D01 pilot's actual validated output
+# (data/processed/D01/labelled_PILOT_20260813_ARCHIVE.parquet), not written
+# by hand or copied from documentation — every name below is a column that
+# genuinely exists in a real, quality-gate-passing labelled parquet produced
+# by this project's own pipeline (extract_and_label.py + the CICFlowMeter
+# build pinned in lab/docker/monitor/Dockerfile).
+#
+# Two naming conventions coexist because extract_and_label.py's CICIDS_RENAME
+# dict only renames the columns label_flows() needs to reference directly
+# (IP/port/protocol/timestamp/duration/packet+byte counts/rates/IAT means) —
+# everything else passes through under CICFlowMeter's own raw column name
+# unchanged. Both are real, both are present in every labelled parquet this
+# pipeline produces. See extract_and_label.py's CICIDS_RENAME dict for the
+# authoritative mapping if this ever needs to be regenerated.
+#
+# Total: 76 numeric feature columns + 11 metadata/identifier columns = 87.
+
+metadata_columns:
+  - name: Flow ID
+    type: string
+    note: CICFlowMeter's own composite flow identifier; not a model feature.
+  - name: src_ip
+    type: string
+  - name: src_port
+    type: int
+  - name: dst_ip
+    type: string
+  - name: dst_port
+    type: int
+  - name: protocol
+    type: int
+    note: "IANA protocol number as emitted by CICFlowMeter; observed value 0 for ICMP flows in this build rather than the IANA-standard 1 — flagged for the thesis methods chapter, does not affect flow-count/timing correctness (independently verified against raw packet counts, see problems_notes.txt 2026-08-13 Wireshark/scapy validation entry)."
+  - name: timestamp
+    type: string
+    note: "Format '%d/%m/%Y %I:%M:%S %p', NO fractional seconds (floored to the second) — see ATTACK_WINDOW_TOLERANCE_S in extract_and_label.py for why this matters."
+  - name: Label
+    type: string
+    note: CICFlowMeter's own built-in label column (always "NeedManualLabel" in this pipeline) — superseded by the manifest-derived `label` column below; kept only because dropping it isn't necessary and preserves raw provenance.
+  - name: label
+    type: string
+    note: "The real ground-truth label assigned by extract_and_label.py's label_flows(): an attack family name, BENIGN, or UNKNOWN."
+  - name: session_id
+    type: string
+  - name: domain_id
+    type: string
+
+feature_columns:
+  # ── Duration & volume ──────────────────────────────────────────────────
+  - {name: flow_duration,        unit: microseconds, source: renamed}
+  - {name: fwd_pkts,             unit: count,         source: renamed}
+  - {name: bwd_pkts,             unit: count,         source: renamed}
+  - {name: fwd_bytes,            unit: bytes,         source: renamed}
+  - {name: bwd_bytes,            unit: bytes,         source: renamed}
+
+  # ── Packet length statistics ───────────────────────────────────────────
+  - {name: fwd_pkt_len_max,      unit: bytes, source: renamed}
+  - {name: fwd_pkt_len_min,      unit: bytes, source: renamed}
+  - {name: fwd_pkt_len_mean,     unit: bytes, source: renamed}
+  - {name: fwd_pkt_len_std,      unit: bytes, source: renamed}
+  - {name: bwd_pkt_len_max,      unit: bytes, source: renamed}
+  - {name: bwd_pkt_len_min,      unit: bytes, source: renamed}
+  - {name: bwd_pkt_len_mean,     unit: bytes, source: renamed}
+  - {name: bwd_pkt_len_std,      unit: bytes, source: renamed}
+  - {name: Packet Length Min,        unit: bytes, source: raw_passthrough}
+  - {name: Packet Length Max,        unit: bytes, source: raw_passthrough}
+  - {name: Packet Length Mean,       unit: bytes, source: raw_passthrough}
+  - {name: Packet Length Std,        unit: bytes, source: raw_passthrough}
+  - {name: Packet Length Variance,   unit: bytes^2, source: raw_passthrough}
+  - {name: Average Packet Size,      unit: bytes, source: raw_passthrough}
+  - {name: Fwd Segment Size Avg,     unit: bytes, source: raw_passthrough}
+  - {name: Bwd Segment Size Avg,     unit: bytes, source: raw_passthrough}
+  - {name: Fwd Seg Size Min,         unit: bytes, source: raw_passthrough}
+
+  # ── Rates ───────────────────────────────────────────────────────────────
+  - {name: flow_bytes_s,         unit: bytes/sec,   source: renamed}
+  - {name: flow_pkts_s,          unit: pkts/sec,    source: renamed}
+  - {name: fwd_pkts_s,           unit: pkts/sec,    source: renamed}
+  - {name: bwd_pkts_s,           unit: pkts/sec,    source: renamed}
+
+  # ── Inter-arrival time (IAT) statistics ────────────────────────────────
+  - {name: Flow IAT Mean,        unit: microseconds, source: raw_passthrough}
+  - {name: Flow IAT Std,         unit: microseconds, source: raw_passthrough}
+  - {name: Flow IAT Max,         unit: microseconds, source: raw_passthrough}
+  - {name: Flow IAT Min,         unit: microseconds, source: raw_passthrough}
+  - {name: Fwd IAT Total,        unit: microseconds, source: raw_passthrough}
+  - {name: fwd_iat_mean,         unit: microseconds, source: renamed}
+  - {name: fwd_iat_std,          unit: microseconds, source: renamed}
+  - {name: fwd_iat_max,          unit: microseconds, source: renamed}
+  - {name: fwd_iat_min,          unit: microseconds, source: renamed}
+  - {name: Bwd IAT Total,        unit: microseconds, source: raw_passthrough}
+  - {name: bwd_iat_mean,         unit: microseconds, source: renamed}
+  - {name: bwd_iat_std,          unit: microseconds, source: renamed}
+  - {name: bwd_iat_max,          unit: microseconds, source: renamed}
+  - {name: bwd_iat_min,          unit: microseconds, source: renamed}
+
+  # ── TCP flag counts ─────────────────────────────────────────────────────
+  - {name: fwd_fin_cnt,          unit: count, source: renamed, note: "FIN Flag Count in CICFlowMeter's raw output"}
+  - {name: fwd_syn_cnt,          unit: count, source: renamed, note: "SYN Flag Count"}
+  - {name: fwd_rst_cnt,          unit: count, source: renamed, note: "RST Flag Count"}
+  - {name: fwd_psh_cnt,          unit: count, source: renamed, note: "PSH Flag Count"}
+  - {name: fwd_ack_cnt,          unit: count, source: renamed, note: "ACK Flag Count"}
+  - {name: Fwd PSH Flags,        unit: count, source: raw_passthrough}
+  - {name: Bwd PSH Flags,        unit: count, source: raw_passthrough, note: "QG-06 zero-variance in pilot — near-never set in this traffic mix, expected (see problems_notes.txt)"}
+  - {name: Fwd URG Flags,        unit: count, source: raw_passthrough, note: "QG-06 zero-variance in pilot — expected"}
+  - {name: Bwd URG Flags,        unit: count, source: raw_passthrough, note: "QG-06 zero-variance in pilot — expected"}
+  - {name: URG Flag Count,       unit: count, source: raw_passthrough, note: "QG-06 zero-variance in pilot — expected"}
+  - {name: CWR Flag Count,       unit: count, source: raw_passthrough}
+  - {name: ECE Flag Count,       unit: count, source: raw_passthrough}
+
+  # ── Header / window / init ──────────────────────────────────────────────
+  - {name: Fwd Header Length,    unit: bytes, source: raw_passthrough}
+  - {name: Bwd Header Length,    unit: bytes, source: raw_passthrough}
+  - {name: FWD Init Win Bytes,   unit: bytes, source: raw_passthrough}
+  - {name: Bwd Init Win Bytes,   unit: bytes, source: raw_passthrough}
+  - {name: Fwd Act Data Pkts,    unit: count, source: raw_passthrough}
+
+  # ── Bulk transfer ────────────────────────────────────────────────────────
+  - {name: Fwd Bytes/Bulk Avg,   unit: bytes, source: raw_passthrough, note: "QG-06 zero-variance in pilot — short synthetic sessions rarely trigger CICFlowMeter's bulk-transfer detection, expected (commonly near-constant in real CICIDS-family datasets too)"}
+  - {name: Fwd Packet/Bulk Avg,  unit: count, source: raw_passthrough, note: "QG-06 zero-variance in pilot — expected"}
+  - {name: Fwd Bulk Rate Avg,    unit: bytes/sec, source: raw_passthrough, note: "QG-06 zero-variance in pilot — expected"}
+  - {name: Bwd Bytes/Bulk Avg,   unit: bytes, source: raw_passthrough}
+  - {name: Bwd Packet/Bulk Avg,  unit: count, source: raw_passthrough}
+  - {name: Bwd Bulk Rate Avg,    unit: bytes/sec, source: raw_passthrough}
+
+  # ── Subflows ─────────────────────────────────────────────────────────────
+  - {name: Subflow Fwd Packets,  unit: count, source: raw_passthrough}
+  - {name: Subflow Fwd Bytes,    unit: bytes, source: raw_passthrough}
+  - {name: Subflow Bwd Packets,  unit: count, source: raw_passthrough}
+  - {name: Subflow Bwd Bytes,    unit: bytes, source: raw_passthrough}
+
+  # ── Active/idle timing ───────────────────────────────────────────────────
+  - {name: Active Mean,          unit: microseconds, source: raw_passthrough}
+  - {name: Active Std,           unit: microseconds, source: raw_passthrough}
+  - {name: Active Max,           unit: microseconds, source: raw_passthrough}
+  - {name: Active Min,           unit: microseconds, source: raw_passthrough}
+  - {name: Idle Mean,            unit: microseconds, source: raw_passthrough}
+  - {name: Idle Std,             unit: microseconds, source: raw_passthrough}
+  - {name: Idle Max,             unit: microseconds, source: raw_passthrough}
+  - {name: Idle Min,             unit: microseconds, source: raw_passthrough}
+
+  # ── Ratio ────────────────────────────────────────────────────────────────
+  - {name: Down/Up Ratio,        unit: ratio, source: raw_passthrough}
+
+validation:
+  method: "Packet-level cross-check (scapy) against CICFlowMeter's own flow output, D01-ICMP_FLOOD-ic-med-1-212112 session, 2026-08-13"
+  result: "66,033 total packets in PCAP; 53,493 ICMP packets directly between attacker (172.20.0.10) and target (172.20.0.30) counted independently from raw packet timestamps (26,747 requests + 26,746 replies). CICFlowMeter produced exactly 2 flow records for this IP pair: Total Fwd Packet + Total Bwd packets = 17835+17834=35669 and 8912+8912=17824, summing to 53,493 — an EXACT match against the independently-counted raw packet total. Flow durations (119,994,116us and 59,994,161us) sum to 179.99s, matching the raw packet timestamp span (179.99s) and splitting almost exactly at CICFlowMeter's documented 120s flow-activity-timeout, confirming the earlier 'ICMP_FLOOD produces 2 flows, not a bug' explanation with independent packet-level evidence rather than just inference from documentation."
+  note: "Performed via scapy rather than the Wireshark GUI, since this session has shell access but not an interactive display — functionally equivalent (same libpcap-level packet parsing, same ground truth), and produces a reproducible, scriptable check rather than a one-time manual click-through."
