@@ -1,0 +1,453 @@
+{
+  "_comment": "Primary session-level train, val, and test split configuration across domains.",
+  "seed": 42,
+  "split_ratios": {
+    "D01": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "D02": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "D03": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "D04": [
+      0.7,
+      0.3,
+      0.0
+    ]
+  },
+  "sessions": {
+    "D01-BENIGN-benign-only-2-151442": {
+      "split": "train",
+      "domain": "D01",
+      "family": "BENIGN"
+    },
+    "D01-BENIGN-benign-only-1-145533": {
+      "split": "val",
+      "domain": "D01",
+      "family": "BENIGN"
+    },
+    "D01-BENIGN-benign-only-3-153352": {
+      "split": "test",
+      "domain": "D01",
+      "family": "BENIGN"
+    },
+    "D01-DOS_HULK-dh-2-141914": {
+      "split": "train",
+      "domain": "D01",
+      "family": "DOS_HULK"
+    },
+    "D01-DOS_HULK-dh-1-140950": {
+      "split": "test",
+      "domain": "D01",
+      "family": "DOS_HULK"
+    },
+    "D01-DOS_SLOWLORIS-ds-2-002132": {
+      "split": "train",
+      "domain": "D01",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D01-DOS_SLOWLORIS-ds-4-003953": {
+      "split": "train",
+      "domain": "D01",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D01-DOS_SLOWLORIS-ds-1-001222": {
+      "split": "val",
+      "domain": "D01",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D01-DOS_SLOWLORIS-ds-3-003043": {
+      "split": "test",
+      "domain": "D01",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D01-FTP_BRUTE-fb-hydra-2-185553": {
+      "split": "train",
+      "domain": "D01",
+      "family": "FTP_BRUTE"
+    },
+    "D01-FTP_BRUTE-fb-hydra-3-192232": {
+      "split": "val",
+      "domain": "D01",
+      "family": "FTP_BRUTE"
+    },
+    "D01-FTP_BRUTE-fb-hydra-1-182115": {
+      "split": "test",
+      "domain": "D01",
+      "family": "FTP_BRUTE"
+    },
+    "D01-ICMP_FLOOD-ic-med-4-171253": {
+      "split": "train",
+      "domain": "D01",
+      "family": "ICMP_FLOOD"
+    },
+    "D01-ICMP_FLOOD-ic-med-2-164930": {
+      "split": "train",
+      "domain": "D01",
+      "family": "ICMP_FLOOD"
+    },
+    "D01-ICMP_FLOOD-ic-med-3-165842": {
+      "split": "train",
+      "domain": "D01",
+      "family": "ICMP_FLOOD"
+    },
+    "D01-ICMP_FLOOD-ic-med-1-164016": {
+      "split": "val",
+      "domain": "D01",
+      "family": "ICMP_FLOOD"
+    },
+    "D01-ICMP_FLOOD-ic-med-5-174704": {
+      "split": "test",
+      "domain": "D01",
+      "family": "ICMP_FLOOD"
+    },
+    "D01-PORT_SCAN-ps-full-1-140535": {
+      "split": "train",
+      "domain": "D01",
+      "family": "PORT_SCAN"
+    },
+    "D01-PORT_SCAN-ps-syn-1-135713": {
+      "split": "val",
+      "domain": "D01",
+      "family": "PORT_SCAN"
+    },
+    "D01-PORT_SCAN-ps-conn-1-140124": {
+      "split": "test",
+      "domain": "D01",
+      "family": "PORT_SCAN"
+    },
+    "D01-SSH_BRUTE-sb-hydra-2-223217": {
+      "split": "train",
+      "domain": "D01",
+      "family": "SSH_BRUTE"
+    },
+    "D01-SSH_BRUTE-sb-ncrack-1-220021": {
+      "split": "val",
+      "domain": "D01",
+      "family": "SSH_BRUTE"
+    },
+    "D01-SSH_BRUTE-sb-hydra-1-195151": {
+      "split": "test",
+      "domain": "D01",
+      "family": "SSH_BRUTE"
+    },
+    "D01-SYN_FLOOD-sf-med-2-103211": {
+      "split": "train",
+      "domain": "D01",
+      "family": "SYN_FLOOD"
+    },
+    "D01-SYN_FLOOD-sf-med-1-102302": {
+      "split": "test",
+      "domain": "D01",
+      "family": "SYN_FLOOD"
+    },
+    "D01-UDP_DDOS-ud-med-2-112309": {
+      "split": "train",
+      "domain": "D01",
+      "family": "UDP_DDOS"
+    },
+    "D01-UDP_DDOS-ud-med-1-111355": {
+      "split": "val",
+      "domain": "D01",
+      "family": "UDP_DDOS"
+    },
+    "D01-UDP_DDOS-ud-med-3-113220": {
+      "split": "test",
+      "domain": "D01",
+      "family": "UDP_DDOS"
+    },
+    "D02-BENIGN-benign-only-2-093555": {
+      "split": "train",
+      "domain": "D02",
+      "family": "BENIGN"
+    },
+    "D02-BENIGN-benign-only-1-091644": {
+      "split": "val",
+      "domain": "D02",
+      "family": "BENIGN"
+    },
+    "D02-BENIGN-benign-only-3-095506": {
+      "split": "test",
+      "domain": "D02",
+      "family": "BENIGN"
+    },
+    "D02-DOS_HULK-dh-2-082145": {
+      "split": "train",
+      "domain": "D02",
+      "family": "DOS_HULK"
+    },
+    "D02-DOS_HULK-dh-3-083059": {
+      "split": "test",
+      "domain": "D02",
+      "family": "DOS_HULK"
+    },
+    "D02-DOS_SLOWLORIS-ds-2-083920": {
+      "split": "train",
+      "domain": "D02",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D02-DOS_SLOWLORIS-ds-4-085642": {
+      "split": "train",
+      "domain": "D02",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D02-DOS_SLOWLORIS-ds-5-090553": {
+      "split": "val",
+      "domain": "D02",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D02-DOS_SLOWLORIS-ds-3-084831": {
+      "split": "test",
+      "domain": "D02",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D02-FTP_BRUTE-fb-hydra-3-040303": {
+      "split": "train",
+      "domain": "D02",
+      "family": "FTP_BRUTE"
+    },
+    "D02-FTP_BRUTE-fb-hydra-4-042602": {
+      "split": "val",
+      "domain": "D02",
+      "family": "FTP_BRUTE"
+    },
+    "D02-FTP_BRUTE-fb-hydra-2-033602": {
+      "split": "test",
+      "domain": "D02",
+      "family": "FTP_BRUTE"
+    },
+    "D02-ICMP_FLOOD-ic-high-5-023816": {
+      "split": "train",
+      "domain": "D02",
+      "family": "ICMP_FLOOD"
+    },
+    "D02-ICMP_FLOOD-ic-high-1-014029": {
+      "split": "train",
+      "domain": "D02",
+      "family": "ICMP_FLOOD"
+    },
+    "D02-ICMP_FLOOD-ic-high-2-014841": {
+      "split": "train",
+      "domain": "D02",
+      "family": "ICMP_FLOOD"
+    },
+    "D02-ICMP_FLOOD-ic-high-3-015653": {
+      "split": "val",
+      "domain": "D02",
+      "family": "ICMP_FLOOD"
+    },
+    "D02-ICMP_FLOOD-ic-high-4-020904": {
+      "split": "test",
+      "domain": "D02",
+      "family": "ICMP_FLOOD"
+    },
+    "D02-PORT_SCAN-ps-full-1-081722": {
+      "split": "train",
+      "domain": "D02",
+      "family": "PORT_SCAN"
+    },
+    "D02-PORT_SCAN-ps-aggr-2-081311": {
+      "split": "val",
+      "domain": "D02",
+      "family": "PORT_SCAN"
+    },
+    "D02-PORT_SCAN-ps-aggr-1-080831": {
+      "split": "test",
+      "domain": "D02",
+      "family": "PORT_SCAN"
+    },
+    "D02-SSH_BRUTE-sb-hydra-3-065035": {
+      "split": "train",
+      "domain": "D02",
+      "family": "SSH_BRUTE"
+    },
+    "D02-SSH_BRUTE-sb-ncrack-2-061300": {
+      "split": "val",
+      "domain": "D02",
+      "family": "SSH_BRUTE"
+    },
+    "D02-SSH_BRUTE-sb-hydra-2-045045": {
+      "split": "test",
+      "domain": "D02",
+      "family": "SSH_BRUTE"
+    },
+    "D02-SYN_FLOOD-sf-high-1-012408": {
+      "split": "train",
+      "domain": "D02",
+      "family": "SYN_FLOOD"
+    },
+    "D02-SYN_FLOOD-sf-high-2-013219": {
+      "split": "test",
+      "domain": "D02",
+      "family": "SYN_FLOOD"
+    },
+    "D02-UDP_DDOS-ud-high-3-032350": {
+      "split": "train",
+      "domain": "D02",
+      "family": "UDP_DDOS"
+    },
+    "D02-UDP_DDOS-ud-high-2-031539": {
+      "split": "val",
+      "domain": "D02",
+      "family": "UDP_DDOS"
+    },
+    "D02-UDP_DDOS-ud-high-1-030727": {
+      "split": "test",
+      "domain": "D02",
+      "family": "UDP_DDOS"
+    },
+    "D03-BENIGN-benign-only-1-031117": {
+      "split": "train",
+      "domain": "D03",
+      "family": "BENIGN"
+    },
+    "D03-BENIGN-benign-only-3-034939": {
+      "split": "val",
+      "domain": "D03",
+      "family": "BENIGN"
+    },
+    "D03-BENIGN-benign-only-2-033028": {
+      "split": "test",
+      "domain": "D03",
+      "family": "BENIGN"
+    },
+    "D03-DOS_HULK-dh-2-021107": {
+      "split": "train",
+      "domain": "D03",
+      "family": "DOS_HULK"
+    },
+    "D03-DOS_HULK-dh-1-020138": {
+      "split": "test",
+      "domain": "D03",
+      "family": "DOS_HULK"
+    },
+    "D03-DOS_SLOWLORIS-ds-2-023432": {
+      "split": "train",
+      "domain": "D03",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D03-DOS_SLOWLORIS-ds-1-022519": {
+      "split": "train",
+      "domain": "D03",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D03-DOS_SLOWLORIS-ds-3-024843": {
+      "split": "val",
+      "domain": "D03",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D03-DOS_SLOWLORIS-ds-4-030025": {
+      "split": "test",
+      "domain": "D03",
+      "family": "DOS_SLOWLORIS"
+    },
+    "D03-FTP_BRUTE-fb-medusa-2-150252": {
+      "split": "train",
+      "domain": "D03",
+      "family": "FTP_BRUTE"
+    },
+    "D03-FTP_BRUTE-fb-hydra-2-143321": {
+      "split": "val",
+      "domain": "D03",
+      "family": "FTP_BRUTE"
+    },
+    "D03-FTP_BRUTE-fb-medusa-1-140045": {
+      "split": "test",
+      "domain": "D03",
+      "family": "FTP_BRUTE"
+    },
+    "D03-ICMP_FLOOD-ic-low-1-112706": {
+      "split": "train",
+      "domain": "D03",
+      "family": "ICMP_FLOOD"
+    },
+    "D03-ICMP_FLOOD-ic-low-2-114118": {
+      "split": "train",
+      "domain": "D03",
+      "family": "ICMP_FLOOD"
+    },
+    "D03-ICMP_FLOOD-ic-low-4-121442": {
+      "split": "train",
+      "domain": "D03",
+      "family": "ICMP_FLOOD"
+    },
+    "D03-ICMP_FLOOD-ic-low-3-115531": {
+      "split": "val",
+      "domain": "D03",
+      "family": "ICMP_FLOOD"
+    },
+    "D03-ICMP_FLOOD-ic-low-5-124354": {
+      "split": "test",
+      "domain": "D03",
+      "family": "ICMP_FLOOD"
+    },
+    "D03-PORT_SCAN-ps-full-1-183901": {
+      "split": "train",
+      "domain": "D03",
+      "family": "PORT_SCAN"
+    },
+    "D03-PORT_SCAN-ps-conn-1-183448": {
+      "split": "val",
+      "domain": "D03",
+      "family": "PORT_SCAN"
+    },
+    "D03-PORT_SCAN-ps-syn-2-182354": {
+      "split": "test",
+      "domain": "D03",
+      "family": "PORT_SCAN"
+    },
+    "D03-SSH_BRUTE-sb-ncrack-1-153418": {
+      "split": "train",
+      "domain": "D03",
+      "family": "SSH_BRUTE"
+    },
+    "D03-SSH_BRUTE-sb-hydra-1-160706": {
+      "split": "val",
+      "domain": "D03",
+      "family": "SSH_BRUTE"
+    },
+    "D03-SSH_BRUTE-sb-ncrack-2-175515": {
+      "split": "test",
+      "domain": "D03",
+      "family": "SSH_BRUTE"
+    },
+    "D03-SYN_FLOOD-sf-low-2-111256": {
+      "split": "train",
+      "domain": "D03",
+      "family": "SYN_FLOOD"
+    },
+    "D03-SYN_FLOOD-sf-low-1-105844": {
+      "split": "test",
+      "domain": "D03",
+      "family": "SYN_FLOOD"
+    },
+    "D03-UDP_DDOS-ud-low-3-132801": {
+      "split": "train",
+      "domain": "D03",
+      "family": "UDP_DDOS"
+    },
+    "D03-UDP_DDOS-ud-low-1-125934": {
+      "split": "train",
+      "domain": "D03",
+      "family": "UDP_DDOS"
+    },
+    "D03-UDP_DDOS-ud-low-4-134715": {
+      "split": "val",
+      "domain": "D03",
+      "family": "UDP_DDOS"
+    },
+    "D03-UDP_DDOS-ud-low-2-131348": {
+      "split": "test",
+      "domain": "D03",
+      "family": "UDP_DDOS"
+    }
+  }
+}

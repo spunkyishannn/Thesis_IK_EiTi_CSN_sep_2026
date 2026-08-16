@@ -1,0 +1,31 @@
+{
+  "_comment": "Extraction parameters and tooling configuration metadata.",
+  "extractor": "CICFlowMeter",
+  "source_repo": "https://github.com/ahlashkari/CICFlowMeter",
+  "commit_hash": "98a5eba",
+  "commit_message": "Update LICENSE.txt",
+  "commit_pinned_note": "Confirmed 2026-08-13 via `docker exec ids_v2_monitor cat /opt/CICFlowMeter/COMMIT`. lab/docker/monitor/Dockerfile switched from a shallow `git clone --depth=1` (tracked whatever the upstream default branch's HEAD happened to be at build time -- no reproducibility guarantee) to a full clone + explicit `git checkout 98a5eba`, so every dataset generated from this point forward traces to this exact commit. This is the commit that built the monitor image used for the entire validated D01-D04 pilot and full-generation run.",
+  "jar_checksum_sha256": "e3fd7827bf8e27eb3c87c6944c1d2a3af4f0c7026a9b2d3acfa28d9f04da47c3",
+  "jar_checksum_note": "Computed 2026-08-19 via `docker exec ids_v2_monitor sha256sum /opt/CICFlowMeter/CICFlowMeter.jar`, immediately after rebuilding the lab containers fresh at their new S:-drive Docker location (commit_hash re-verified as 98a5eba at the same time, unchanged). Filled in later than planned -- this field sat null through the entire D01-D04 v1 generation and Phase 2 freeze because Docker Desktop wasn't running when this file was first written (2026-08-16); tracked as a known gap rather than silently left blank, closed now that a live container is available. Expected to match the D01-D04 v2/v3 regeneration too (same pinned commit, same Dockerfile build steps) -- worth a quick re-check after that rebuild rather than assumed identical, same discipline as everything else in this file.",
+  "jvm_heap_settings": "-Xms1g -Xmx6g",
+  "jvm_heap_note": "Added 2026-08-14 after DOS_HULK sessions OOM'd on default JVM heap sizing (see problems_notes.txt). Does not affect feature VALUES, only extraction reliability on large PCAPs.",
+  "reference_pcap_validation": {
+    "method": "Packet-level cross-check (scapy) against CICFlowMeter's own flow output -- not the Wireshark GUI (this environment has shell access but no interactive display), but functionally equivalent: same libpcap-level packet parsing, same ground truth, and reproducible/scriptable rather than a one-time manual click-through.",
+    "session": "D01-ICMP_FLOOD-ic-med-1-212112",
+    "date": "2026-08-13",
+    "result": "66,033 total packets in PCAP; 53,493 ICMP packets directly between attacker (172.20.0.10) and target (172.20.0.30) counted independently from raw packet timestamps (26,747 requests + 26,746 replies). CICFlowMeter produced exactly 2 flow records for this IP pair: Total Fwd Packet + Total Bwd packets = 17835+17834=35669 and 8912+8912=17824, summing to 53,493 -- an EXACT match against the independently-counted raw packet total. Flow durations (119,994,116us and 59,994,161us) sum to 179.99s, matching the raw packet timestamp span and splitting almost exactly at CICFlowMeter's documented 120s flow-activity-timeout.",
+    "scope": "Validates packet-count fields (Total Fwd/Bwd Packet) and flow_duration for one ICMP session. Does NOT independently validate IAT statistics, TCP flag counts, or any Group D feature against raw packets -- see configs/feature_dictionary_v2.yaml for how this scope limitation is reflected in the VERIFIED/QUESTIONABLE/EXCLUDED assignment."
+  },
+  "known_issues": [
+    {
+      "field": "protocol",
+      "issue": "CICFlowMeter emits 0 for ICMP flows in this build rather than the IANA-standard protocol number 1. Does not affect flow-count or timing correctness (confirmed by the reference PCAP validation above, which counted real ICMP packets independent of this field). Flagged for the thesis methods/limitations chapter.",
+      "found": "2026-08-13"
+    },
+    {
+      "field": "(all columns)",
+      "issue": "CICFlowMeter re-emits its own CSV header line once mid-file on every extraction (not just at the top). extract_and_label.py's load_csv() coerces all feature columns to numeric and drops any row that fails to coerce (this single embedded-header row, consistently, every file) rather than silently leaving the whole column as string dtype -- see problems_notes.txt 2026-08-13 (QG-01/QG-02 vacuous-pass entry) for the full incident.",
+      "found": "2026-08-13"
+    }
+  ]
+}

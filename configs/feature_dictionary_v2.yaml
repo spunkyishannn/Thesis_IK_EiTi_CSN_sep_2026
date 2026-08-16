@@ -1,0 +1,711 @@
+description: Phase 1 feature selection and collinearity analysis output generated from pooled natural traffic domains (D01-D04).
+n_training_flows: 8620030
+domains:
+- D01
+- D02
+- D03
+- D04
+correlation_flag_threshold: 0.95
+high_correlation_pairs:
+- feature_a: flow_duration
+  feature_b: Fwd IAT Total
+  r: 0.9909
+- feature_a: bwd_bytes
+  feature_b: Fwd Header Length
+  r: 0.963
+- feature_a: bwd_bytes
+  feature_b: Bwd Header Length
+  r: 0.9985
+- feature_a: bwd_bytes
+  feature_b: fwd_ack_cnt
+  r: 0.9988
+- feature_a: fwd_pkt_len_mean
+  feature_b: Fwd Segment Size Avg
+  r: 1.0
+- feature_a: bwd_pkt_len_max
+  feature_b: bwd_pkt_len_std
+  r: 0.9516
+- feature_a: bwd_pkt_len_mean
+  feature_b: Bwd Segment Size Avg
+  r: 1.0
+- feature_a: flow_pkts_s
+  feature_b: fwd_pkts_s
+  r: 0.9967
+- feature_a: Flow IAT Max
+  feature_b: fwd_iat_max
+  r: 0.9787
+- feature_a: Flow IAT Max
+  feature_b: Idle Mean
+  r: 0.9777
+- feature_a: Flow IAT Max
+  feature_b: Idle Max
+  r: 0.9935
+- feature_a: fwd_iat_max
+  feature_b: Idle Mean
+  r: 0.9536
+- feature_a: fwd_iat_max
+  feature_b: Idle Max
+  r: 0.9725
+- feature_a: bwd_iat_mean
+  feature_b: bwd_iat_min
+  r: 0.961
+- feature_a: Fwd Header Length
+  feature_b: Bwd Header Length
+  r: 0.9636
+- feature_a: Fwd Header Length
+  feature_b: fwd_ack_cnt
+  r: 0.9639
+- feature_a: Bwd Header Length
+  feature_b: fwd_ack_cnt
+  r: 0.9992
+- feature_a: Packet Length Max
+  feature_b: Packet Length Std
+  r: 0.9635
+- feature_a: Packet Length Mean
+  feature_b: Average Packet Size
+  r: 0.9919
+- feature_a: CWR Flag Count
+  feature_b: ECE Flag Count
+  r: 0.9984
+- feature_a: Idle Mean
+  feature_b: Idle Max
+  r: 0.984
+- feature_a: Idle Mean
+  feature_b: Idle Min
+  r: 0.9852
+features:
+  flow_duration:
+    group: C_temporal
+    category: VERIFIED
+    reason: Independently cross-checked against raw packet timestamps for one ICMP session, 2026-08-13
+      (see extraction_metadata.json). Remains in Group C (temporal) for the ablation table, but treated
+      as VERIFIED rather than QUESTIONABLE on the strength of that direct evidence -- unlike the rest
+      of Group C (IAT statistics), which have not been independently checked against raw packets.
+    global_std: 9109198.635053
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.996
+  fwd_pkts:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 157.881436
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9999
+  bwd_pkts:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 167.529075
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  fwd_bytes:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 73478.597623
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9999
+  bwd_bytes:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 206880.667777
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  fwd_pkt_len_max:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 1461.044356
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9974
+  fwd_pkt_len_min:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 482.312421
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9984
+  fwd_pkt_len_mean:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 796.194024
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9967
+  fwd_pkt_len_std:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 501.044541
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.998
+  bwd_pkt_len_max:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 2330.832054
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.995
+  bwd_pkt_len_min:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 458.202147
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.999
+  bwd_pkt_len_mean:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 1065.059274
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9935
+  bwd_pkt_len_std:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 789.90504
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9948
+  flow_bytes_s:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 16924409.980788
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9998
+  flow_pkts_s:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 65645.158035
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.999
+  Flow IAT Mean:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 1316144.673996
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9972
+  Flow IAT Std:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 2225372.444676
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9965
+  Flow IAT Max:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 5526605.409739
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9949
+  Flow IAT Min:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 553153.287416
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9996
+  Fwd IAT Total:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 8982922.862633
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9963
+  fwd_iat_mean:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 3295690.199893
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9982
+  fwd_iat_std:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 1900720.795962
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9949
+  fwd_iat_max:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 5516876.537626
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9956
+  fwd_iat_min:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 3102219.280376
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9996
+  Bwd IAT Total:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 7972854.773992
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9976
+  bwd_iat_mean:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 3118485.268994
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9991
+  bwd_iat_std:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 1577151.970852
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9964
+  bwd_iat_max:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 5079758.719345
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9968
+  bwd_iat_min:
+    group: C_temporal
+    category: QUESTIONABLE
+    reason: 'Group C (temporal): HIGH domain sensitivity per Section 10B; IAT statistics not independently
+      verified against raw packets (only flow_duration has that evidence -- see flow_duration''s own entry).'
+    global_std: 2995360.985325
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9998
+  Fwd PSH Flags:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.226163
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9982
+  Bwd PSH Flags:
+    group: D_tcp_flags
+    category: EXCLUDED
+    reason: zero variance across all pooled D01-D04 training data
+    global_std: 0.0
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.0
+  Fwd URG Flags:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.000482
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Bwd URG Flags:
+    group: D_tcp_flags
+    category: EXCLUDED
+    reason: zero variance across all pooled D01-D04 training data
+    global_std: 0.0
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.0
+  Fwd Header Length:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 2281.30826
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Bwd Header Length:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 2844.517765
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  fwd_pkts_s:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 65133.588368
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.999
+  bwd_pkts_s:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 4909.909936
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Packet Length Min:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 68.363444
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9997
+  Packet Length Max:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 2689.794627
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.992
+  Packet Length Mean:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 702.254661
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9892
+  Packet Length Std:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 888.032589
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9899
+  Packet Length Variance:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 4380455.819974
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9935
+  fwd_fin_cnt:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.786402
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9976
+  fwd_syn_cnt:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 1.082254
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9956
+  fwd_rst_cnt:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.721095
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.999
+  fwd_psh_cnt:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 4.805861
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9986
+  fwd_ack_cnt:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 248.442925
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  URG Flag Count:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.000762
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  CWR Flag Count:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.003046
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  ECE Flag Count:
+    group: D_tcp_flags
+    category: QUESTIONABLE
+    reason: 'Group D (TCP flags): CICFlowMeter has documented fwd/bwd assignment bugs in some versions
+      per Section 10B; never independently verified against Wireshark/raw packets in this project.'
+    global_std: 0.006064
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Down/Up Ratio:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 0.569293
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9977
+  Average Packet Size:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 817.510115
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9896
+  Fwd Segment Size Avg:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 796.194024
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9967
+  Bwd Segment Size Avg:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 1065.059274
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9935
+  Fwd Bytes/Bulk Avg:
+    group: E_header_connection
+    category: EXCLUDED
+    reason: zero variance across all pooled D01-D04 training data
+    global_std: 0.0
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.0
+  Fwd Packet/Bulk Avg:
+    group: E_header_connection
+    category: EXCLUDED
+    reason: zero variance across all pooled D01-D04 training data
+    global_std: 0.0
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.0
+  Fwd Bulk Rate Avg:
+    group: E_header_connection
+    category: EXCLUDED
+    reason: zero variance across all pooled D01-D04 training data
+    global_std: 0.0
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.0
+  Bwd Bytes/Bulk Avg:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 82062.726989
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9998
+  Bwd Packet/Bulk Avg:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 86.22898
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9999
+  Bwd Bulk Rate Avg:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 11701543.08604
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9962
+  Subflow Fwd Packets:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 27.277752
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Subflow Fwd Bytes:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 11508.966858
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9998
+  Subflow Bwd Packets:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 32.13574
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Subflow Bwd Bytes:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 43548.66063
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9999
+  FWD Init Win Bytes:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 31509.622372
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9986
+  Bwd Init Win Bytes:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 17967.116503
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9685
+  Fwd Act Data Pkts:
+    group: A_volumetric
+    category: VERIFIED
+    reason: 'Group A_volumetric: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 127.090382
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 1.0
+  Fwd Seg Size Min:
+    group: B_packet_size
+    category: VERIFIED
+    reason: 'Group B_packet_size: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 6.65451
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9986
+  Active Mean:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 669292.026749
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9996
+  Active Std:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 305894.21683
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9995
+  Active Max:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 814072.640193
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9994
+  Active Min:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 625664.240714
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9997
+  Idle Mean:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 5112133.371108
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9951
+  Idle Std:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 1191656.13893
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9986
+  Idle Max:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 5529381.735858
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.995
+  Idle Min:
+    group: E_header_connection
+    category: VERIFIED
+    reason: 'Group E_header_connection: no documented domain-sensitivity concern in Section 10B.'
+    global_std: 4888553.540961
+    nan_rate: 0.0
+    inf_rate: 0.0
+    domain_stability_score: 0.9956
