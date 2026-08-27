@@ -1,0 +1,172 @@
+{
+  "_comment": "Frozen model hyperparameters and selected feature columns.",
+  "feature_columns": [
+    "Average Packet Size",
+    "Down/Up Ratio",
+    "Fwd Act Data Pkts",
+    "Fwd Seg Size Min",
+    "Packet Length Max",
+    "Packet Length Mean",
+    "Packet Length Min",
+    "Packet Length Std",
+    "Packet Length Variance",
+    "bwd_bytes",
+    "bwd_pkt_len_max",
+    "bwd_pkt_len_mean",
+    "bwd_pkt_len_min",
+    "bwd_pkt_len_std",
+    "bwd_pkts",
+    "bwd_pkts_s",
+    "flow_bytes_s",
+    "flow_pkts_s",
+    "fwd_bytes",
+    "fwd_pkt_len_max",
+    "fwd_pkt_len_mean",
+    "fwd_pkt_len_min",
+    "fwd_pkt_len_std",
+    "fwd_pkts",
+    "fwd_pkts_s"
+  ],
+  "scaler": "RobustScaler",
+  "label_classes_in_order": [
+    "BENIGN",
+    "DOS_HULK",
+    "DOS_SLOWLORIS",
+    "FTP_BRUTE",
+    "ICMP_FLOOD",
+    "PORT_SCAN",
+    "SSH_BRUTE",
+    "SYN_FLOOD",
+    "UDP_DDOS"
+  ],
+  "per_class_cap": 25000,
+  "seed": 42,
+  "n_trials": 50,
+  "n_folds": 5,
+  "n_train_flows_capped": 179607,
+  "n_val_flows_natural": 241475,
+  "models": {
+    "LR": {
+      "best_hyperparameters": {
+        "C": 1.0,
+        "class_weight": null
+      },
+      "n_trials_run": 2,
+      "linearsvc_fell_back_to_logreg": null,
+      "cv_macro_f1_mean": 0.2328,
+      "val_macro_f1": 0.1258,
+      "val_per_class_f1": {
+        "BENIGN": 0.2935,
+        "DOS_HULK": 0.0,
+        "DOS_SLOWLORIS": 0.0176,
+        "FTP_BRUTE": 0.0001,
+        "ICMP_FLOOD": 0.3442,
+        "PORT_SCAN": 0.0,
+        "SSH_BRUTE": 0.0,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.4767
+      },
+      "hpo_seconds": 949.6,
+      "note": "Full HPO search skipped (2026-08-17 evidence: saga does not converge within max_iter=1000 regardless of C -- C=0.001/1.0/100.0 produced bit-identical predictions). v2 (2026-08-18): C fixed at 1.0, but now compares class_weight=None vs 'balanced' (2 fits) -- motivated by PORT_SCAN (3,200 flows) and SSH_BRUTE (1,423 flows) being genuinely rare in the 99,670-flow capped training pool, and V1's own frozen models all having used class_weight='balanced' where V2's original Section 15 respec dropped it undocumented. Whichever class_weight wins on CV macro-F1 is kept. See problems_notes.txt 2026-08-18."
+    },
+    "LinearSVC": {
+      "best_hyperparameters": {
+        "C": 1.0,
+        "class_weight": "balanced"
+      },
+      "n_trials_run": 2,
+      "linearsvc_fell_back_to_logreg": false,
+      "cv_macro_f1_mean": 0.3821,
+      "val_macro_f1": 0.5695,
+      "val_per_class_f1": {
+        "BENIGN": 0.9232,
+        "DOS_HULK": 0.0,
+        "DOS_SLOWLORIS": 0.6672,
+        "FTP_BRUTE": 0.6291,
+        "ICMP_FLOOD": 1.0,
+        "PORT_SCAN": 0.2927,
+        "SSH_BRUTE": 0.6364,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.977
+      },
+      "hpo_seconds": 3782.5,
+      "note": "Full HPO search skipped for the same reason as LR (2026-08-17): Section 15's own convergence fallback fired on every real trial, meaning this model was in practice always running the LR-family fallback (identical macro-F1=0.4379 at C=0.001/1.0/100.0). v2 (2026-08-18): same class_weight=None vs 'balanced' comparison as LR, same motivation (PORT_SCAN/SSH_BRUTE rarity), C still fixed at 1.0."
+    },
+    "RF": {
+      "best_hyperparameters": {
+        "n_estimators": 214,
+        "max_depth": 6,
+        "min_samples_leaf": 14,
+        "class_weight": null
+      },
+      "n_trials_run": 50,
+      "linearsvc_fell_back_to_logreg": null,
+      "cv_macro_f1_mean": 0.7246,
+      "val_macro_f1": 0.6534,
+      "val_per_class_f1": {
+        "BENIGN": 0.9389,
+        "DOS_HULK": 0.0,
+        "DOS_SLOWLORIS": 0.6299,
+        "FTP_BRUTE": 0.8884,
+        "ICMP_FLOOD": 1.0,
+        "PORT_SCAN": 0.7167,
+        "SSH_BRUTE": 0.7072,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 1.0
+      },
+      "hpo_seconds": 4736.6,
+      "note": null
+    },
+    "XGB": {
+      "best_hyperparameters": {
+        "n_estimators": 356,
+        "max_depth": 3,
+        "learning_rate": 0.2526027101084678,
+        "subsample": 0.7258200596287043,
+        "class_weight": "balanced"
+      },
+      "n_trials_run": 50,
+      "linearsvc_fell_back_to_logreg": null,
+      "cv_macro_f1_mean": 0.7069,
+      "val_macro_f1": 0.8502,
+      "val_per_class_f1": {
+        "BENIGN": 0.9975,
+        "DOS_HULK": 0.0,
+        "DOS_SLOWLORIS": 0.955,
+        "FTP_BRUTE": 0.9408,
+        "ICMP_FLOOD": 1.0,
+        "PORT_SCAN": 0.9941,
+        "SSH_BRUTE": 0.9145,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 1.0
+      },
+      "hpo_seconds": 7239.6,
+      "note": null
+    },
+    "LGBM": {
+      "best_hyperparameters": {
+        "n_estimators": 108,
+        "num_leaves": 195,
+        "learning_rate": 0.16967533607196555,
+        "class_weight": null
+      },
+      "n_trials_run": 50,
+      "linearsvc_fell_back_to_logreg": null,
+      "cv_macro_f1_mean": 0.6698,
+      "val_macro_f1": 0.8526,
+      "val_per_class_f1": {
+        "BENIGN": 0.9977,
+        "DOS_HULK": 0.0,
+        "DOS_SLOWLORIS": 0.9543,
+        "FTP_BRUTE": 0.9435,
+        "ICMP_FLOOD": 1.0,
+        "PORT_SCAN": 0.9925,
+        "SSH_BRUTE": 0.9327,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 1.0
+      },
+      "hpo_seconds": 6143.5,
+      "note": null
+    }
+  }
+}
