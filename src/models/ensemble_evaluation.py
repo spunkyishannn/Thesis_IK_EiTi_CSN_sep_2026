@@ -1,0 +1,251 @@
+"""
+Multi-Model Ensemble Evaluation (Soft Voting and Stacking).
+
+Combines predictions from diverse base classifiers (tree-based, linear, gradient-boosted)
+using probability averaging and meta-learners to evaluate cross-domain stability gains.
+"""
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score
+from sklearn.model_selection import GroupKFold
+from sklearn.preprocessing import LabelEncoder, RobustScaler
+
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = REPO_ROOT / "data" / "processed"
+CONFIGS_DIR = REPO_ROOT / "configs"
+REPORT_DIR = REPO_ROOT / "reports"
+CICIDS_DIR = DATA_DIR / "CICIDS2017_L6"
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from phase2_hpo import (  # noqa: E402
+    DOMAINS, NON_TRAINING_LABELS, load_split, load_split_flows, build_capped_train_pool,
+    make_model, fit_model_with_class_weight, SEED, N_FOLDS,
+)
+
+CONFIG_NAME = "frozen_model_config_v2.json"
+SOFT_VOTE_MODELS = ["LR", "RF", "XGB", "LGBM"]
+STACK_LEVEL0_MODELS = ["RF", "XGB", "LGBM"]
+DAYS = ["tuesday", "wednesday", "friday"]
+OUT_PATH = REPORT_DIR / "ensemble_results_v2.json"
+
+def get_proba(clf, X: np.ndarray, name: str) -> np.ndarray:
+    return clf.predict_proba(X)
+
+def soft_vote(proba_list: list[np.ndarray]) -> np.ndarray:
+    avg = np.mean(np.stack(proba_list, axis=0), axis=0)
+    return avg.argmax(axis=1)
+
+def fit_stacking(X_train: np.ndarray, y_train: np.ndarray, groups_train: np.ndarray,
+                  best_params: dict) -> tuple[dict, LogisticRegression]:
+    """Execute internal routine."""
+    gkf = GroupKFold(n_splits=N_FOLDS)
+    n_classes = len(np.unique(y_train))
+    oof_proba = {name: np.zeros((len(y_train), n_classes)) for name in STACK_LEVEL0_MODELS}
+
+    for train_idx, val_idx in gkf.split(X_train, y_train, groups=groups_train):
+        for name in STACK_LEVEL0_MODELS:
+            clf = make_model(name, best_params[name])
+            clf.fit(X_train[train_idx], y_train[train_idx])
+            oof_proba[name][val_idx] = clf.predict_proba(X_train[val_idx])
+
+    meta_X = np.concatenate([oof_proba[name] for name in STACK_LEVEL0_MODELS], axis=1)
+    meta = LogisticRegression(max_iter=2000, random_state=SEED)
+    meta.fit(meta_X, y_train)
+
+    final_level0 = {}
+    for name in STACK_LEVEL0_MODELS:
+        clf = make_model(name, best_params[name])
+        clf.fit(X_train, y_train)
+        final_level0[name] = clf
+    return final_level0, meta
+
+def stack_predict(level0_models: dict, meta: LogisticRegression, X: np.ndarray) -> np.ndarray:
+    proba = np.concatenate([level0_models[name].predict_proba(X) for name in STACK_LEVEL0_MODELS], axis=1)
+    return meta.predict(proba)
+
+def benign_fpr(y_true_str: np.ndarray, y_pred_str: np.ndarray) -> float | None:
+    is_benign = y_true_str == "BENIGN"
+    n_benign = int(is_benign.sum())
+    if n_benign == 0:
+        return None
+    return round(float(((y_pred_str[is_benign]) != "BENIGN").sum() / n_benign), 4)
+
+def evaluate(y_true: np.ndarray, y_pred: np.ndarray, label_encoder: LabelEncoder) -> dict:
+    macro_f1 = f1_score(y_true, y_pred, average="macro", zero_division=0)
+    y_true_str = label_encoder.inverse_transform(y_true)
+    y_pred_str = label_encoder.inverse_transform(y_pred)
+    return {"macro_f1": round(float(macro_f1), 4), "benign_fpr": benign_fpr(y_true_str, y_pred_str)}
+
+def load_lab_domain(domain: str, feature_cols: list[str]) -> pd.DataFrame:
+    needed = feature_cols + ["label", "session_id"]
+    df = pd.read_parquet(DATA_DIR / domain / "labelled.parquet", columns=needed)
+    return df[~df["label"].isin(NON_TRAINING_LABELS)]
+
+def load_l6(feature_cols: list[str]) -> pd.DataFrame:
+    needed = feature_cols + ["label"]
+    frames = []
+    for day in DAYS:
+        df = pd.read_parquet(CICIDS_DIR / f"{day}_labelled.parquet", columns=needed)
+        frames.append(df[df["label"] != "UNKNOWN"])
+    return pd.concat(frames, ignore_index=True)
+
+def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+    frozen = json.loads((CONFIGS_DIR / CONFIG_NAME).read_text(encoding="utf-8"))
+    feature_cols = frozen["feature_columns"]
+    best_params = {name: frozen["models"][name]["best_hyperparameters"] for name in
+                    ["LR", "RF", "XGB", "LGBM"]}
+
+    if OUT_PATH.exists():
+        results = json.loads(OUT_PATH.read_text(encoding="utf-8"))
+        results.setdefault("levels", {})
+        results.setdefault("_lodo_fold_checkpoint", {})
+        print(f"Resuming: levels already done = {list(results['levels'].keys())}, "
+              f"LODO folds already checkpointed = {list(results['_lodo_fold_checkpoint'].keys())}")
+    else:
+        results = {"description": "Soft voting and stacking ensemble evaluations across heterogeneous classifiers."
+f"configs/{CONFIG_NAME}. Generated by src/models/ensemble_evaluation.py.",
+                   "levels": {}, "_lodo_fold_checkpoint": {}}
+
+    # ---- L2: session holdout (Phase 2's own train/val split) ----
+    # NOTE: always fit (even if L2's result is already checkpointed) --
+    # these fitted models/scaler/label_encoder are reused directly by the L6
+    # section below (same training pool, same models, only the eval set
+    # differs), so there is no cheap way to skip fitting here without also
+    # losing what L6 needs. L2 is a single fit, not the 4x-repeated LODO
+    # loop, so this cost is not worth engineering around.
+    print(f"\n{'=' * 70}\nL2 -- session holdout\n{'=' * 70}")
+    split = load_split()
+    sessions = split["sessions"]
+    train_natural = load_split_flows("train", sessions)
+    train_pool = build_capped_train_pool(train_natural)
+    val_natural = load_split_flows("val", sessions)
+
+    scaler = RobustScaler()
+    X_train = scaler.fit_transform(train_pool[feature_cols].to_numpy(dtype=np.float64))
+    label_encoder = LabelEncoder()
+    y_train = label_encoder.fit_transform(train_pool["label"].to_numpy())
+    groups_train = train_pool["session_id"].to_numpy()
+    X_val = scaler.transform(val_natural[feature_cols].to_numpy(dtype=np.float64))
+    y_val = label_encoder.transform(val_natural["label"].to_numpy())
+
+    print("Fitting LR/RF/XGB/LGBM on the L2 training pool for soft voting...")
+    soft_models = {}
+    for name in SOFT_VOTE_MODELS:
+        clf, _ = fit_model_with_class_weight(name, best_params[name], X_train, y_train)
+        soft_models[name] = clf
+    proba_val = [get_proba(soft_models[n], X_val, n) for n in SOFT_VOTE_MODELS]
+    y_pred_soft = soft_vote(proba_val)
+    l2_soft = evaluate(y_val, y_pred_soft, label_encoder)
+    print(f"  Soft voting: macro-F1={l2_soft['macro_f1']:.4f}")
+
+    print("Fitting stacking ensemble (5-fold OOF meta-learner) for L2...")
+    t0 = time.time()
+    level0, meta = fit_stacking(X_train, y_train, groups_train, best_params)
+    y_pred_stack = stack_predict(level0, meta, X_val)
+    l2_stack = evaluate(y_val, y_pred_stack, label_encoder)
+    print(f"  Stacking: macro-F1={l2_stack['macro_f1']:.4f}  ({time.time()-t0:.0f}s)")
+
+    best_single_l2 = max(frozen["models"][n]["val_macro_f1"] for n in ["LR", "LinearSVC", "RF", "XGB", "LGBM"])
+    results["levels"]["L2"] = {"soft_voting": l2_soft, "stacking": l2_stack, "best_single_model_macro_f1": best_single_l2}
+    print(f"  Best single model (frozen config): {best_single_l2:.4f}")
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    OUT_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
+
+    # ---- L4: LODO (4-fold) ----
+    # Checkpointed per fold to results["_lodo_fold_checkpoint"] -- each fold
+    # is an independent, expensive fit (soft-vote's 4 models + stacking's
+    # 3-model x 5-fold OOF + 3 final refits), so a crash on fold 3 must not
+    # cost folds 1-2 (same lesson as every other multi-hour run tonight).
+    print(f"\n{'=' * 70}\nL4 -- LODO (leave-one-domain-out)\n{'=' * 70}")
+    fold_ckpt = results["_lodo_fold_checkpoint"]
+    for held_out in DOMAINS:
+        if held_out in fold_ckpt:
+            print(f"\n  [skip] fold {held_out} already checkpointed.")
+            continue
+        train_domains = [d for d in DOMAINS if d != held_out]
+        print(f"\n  Fold: held-out={held_out}")
+        fold_train_natural = pd.concat([load_lab_domain(d, feature_cols) for d in train_domains], ignore_index=True)
+        fold_train_pool = build_capped_train_pool(fold_train_natural)
+        fold_test = load_lab_domain(held_out, feature_cols)
+
+        all_labels = sorted(set(fold_train_pool["label"].unique()) | set(fold_test["label"].unique()))
+        fold_le = LabelEncoder().fit(all_labels)
+        fold_scaler = RobustScaler()
+        X_tr = fold_scaler.fit_transform(fold_train_pool[feature_cols].to_numpy(dtype=np.float64))
+        y_tr = fold_le.transform(fold_train_pool["label"].to_numpy())
+        groups_tr = fold_train_pool["session_id"].to_numpy()
+        X_te = fold_scaler.transform(fold_test[feature_cols].to_numpy(dtype=np.float64))
+        y_te = fold_le.transform(fold_test["label"].to_numpy())
+
+        fold_soft_models = {}
+        for name in SOFT_VOTE_MODELS:
+            clf, _ = fit_model_with_class_weight(name, best_params[name], X_tr, y_tr)
+            fold_soft_models[name] = clf
+        proba_te = [get_proba(fold_soft_models[n], X_te, n) for n in SOFT_VOTE_MODELS]
+        y_pred_soft = soft_vote(proba_te)
+        soft_f1 = f1_score(y_te, y_pred_soft, average="macro", zero_division=0)
+
+        # NOTE: deliberately named fold_level0/fold_meta, NOT level0/meta --
+        # those names are already bound to L2's full-training-pool stacking
+        # models, which the L6 section below reuses directly (L6 must be
+        # evaluated with the same fully-trained models as L2, not a LODO
+        # fold's fold-specific ones). Reusing the same names here would
+        # silently overwrite them with the LAST LODO fold's models by the
+        # time execution reaches L6 -- caught in review, not from a real
+        # incident.
+        fold_level0, fold_meta = fit_stacking(X_tr, y_tr, groups_tr, best_params)
+        y_pred_stack = stack_predict(fold_level0, fold_meta, X_te)
+        stack_f1 = f1_score(y_te, y_pred_stack, average="macro", zero_division=0)
+
+        print(f"    soft voting macro-F1={soft_f1:.4f}  stacking macro-F1={stack_f1:.4f}", flush=True)
+        fold_ckpt[held_out] = {"soft_f1": round(float(soft_f1), 4), "stack_f1": round(float(stack_f1), 4)}
+        OUT_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        print(f"    [checkpoint] fold {held_out} saved to {OUT_PATH.name}")
+
+    lodo_soft_folds = [fold_ckpt[d]["soft_f1"] for d in DOMAINS]
+    lodo_stack_folds = [fold_ckpt[d]["stack_f1"] for d in DOMAINS]
+    results["levels"]["L4"] = {
+        "soft_voting": {"mean_macro_f1": round(float(np.mean(lodo_soft_folds)), 4),
+                         "sd_macro_f1": round(float(np.std(lodo_soft_folds, ddof=1)), 4), "per_fold": lodo_soft_folds},
+        "stacking": {"mean_macro_f1": round(float(np.mean(lodo_stack_folds)), 4),
+                      "sd_macro_f1": round(float(np.std(lodo_stack_folds, ddof=1)), 4), "per_fold": lodo_stack_folds},
+        "best_single_model_lodo_mean": max(0.8185, 0.8197, 0.8191),  # v2 LODO: RF/XGB/LGBM means
+    }
+    print(f"\n  LODO soft voting: {np.mean(lodo_soft_folds):.4f} +/- {np.std(lodo_soft_folds, ddof=1):.4f}")
+    print(f"  LODO stacking:    {np.mean(lodo_stack_folds):.4f} +/- {np.std(lodo_stack_folds, ddof=1):.4f}")
+    OUT_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
+
+    # ---- L6: CICIDS2017 ----
+    print(f"\n{'=' * 70}\nL6 -- CICIDS2017 external evaluation\n{'=' * 70}")
+    l6_df = load_l6(feature_cols)
+    X_l6 = scaler.transform(l6_df[feature_cols].to_numpy(dtype=np.float64))
+    y_l6 = label_encoder.transform(l6_df["label"].to_numpy())
+
+    proba_l6 = [get_proba(soft_models[n], X_l6, n) for n in SOFT_VOTE_MODELS]
+    y_pred_soft_l6 = soft_vote(proba_l6)
+    l6_soft = evaluate(y_l6, y_pred_soft_l6, label_encoder)
+
+    y_pred_stack_l6 = stack_predict(level0, meta, X_l6)
+    l6_stack = evaluate(y_l6, y_pred_stack_l6, label_encoder)
+
+    best_single_l6 = max(json.loads((REPORT_DIR / "cicids2017_l6_results_v2.json").read_text(encoding="utf-8"))
+                          ["models"][n]["macro_f1"] for n in ["LR", "LinearSVC", "RF", "XGB", "LGBM"])
+    results["levels"]["L6"] = {"soft_voting": l6_soft, "stacking": l6_stack, "best_single_model_macro_f1": best_single_l6}
+    print(f"  Soft voting: macro-F1={l6_soft['macro_f1']:.4f}  FPR={l6_soft['benign_fpr']}")
+    print(f"  Stacking:    macro-F1={l6_stack['macro_f1']:.4f}  FPR={l6_stack['benign_fpr']}")
+    print(f"  Best single model (L6, v2 config): {best_single_l6:.4f}")
+
+    OUT_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    print(f"\n{'=' * 70}\nENSEMBLE EVALUATION COMPLETE. Written: {OUT_PATH}\n{'=' * 70}")
+
+if __name__ == "__main__":
+    main()
