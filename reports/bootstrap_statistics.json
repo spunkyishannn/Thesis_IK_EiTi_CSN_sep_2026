@@ -1,0 +1,228 @@
+{
+  "_comment": "Experiment evaluation results for bootstrap_statistics.",
+  "b_resamples": 1000,
+  "runs": {
+    "v1__LR": {
+      "config_version": "v1",
+      "model": "LR",
+      "fit_seconds": 249.1,
+      "l2_bootstrap": {
+        "point_estimate": 0.1258,
+        "ci_lo": 0.0608,
+        "ci_hi": 0.172,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.0768,
+        "ci_lo": 0.021,
+        "ci_hi": 0.1011,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v1__LinearSVC": {
+      "config_version": "v1",
+      "model": "LinearSVC",
+      "fit_seconds": 310.3,
+      "l2_bootstrap": {
+        "point_estimate": 0.547,
+        "ci_lo": 0.4237,
+        "ci_hi": 0.572,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.2292,
+        "ci_lo": 0.0802,
+        "ci_hi": 0.2638,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v1__RF": {
+      "config_version": "v1",
+      "model": "RF",
+      "fit_seconds": 56.6,
+      "l2_bootstrap": {
+        "point_estimate": 0.7488,
+        "ci_lo": 0.5973,
+        "ci_hi": 0.8522,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.2269,
+        "ci_lo": 0.096,
+        "ci_hi": 0.2368,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v1__XGB": {
+      "config_version": "v1",
+      "model": "XGB",
+      "fit_seconds": 66.6,
+      "l2_bootstrap": {
+        "point_estimate": 0.7579,
+        "ci_lo": 0.6382,
+        "ci_hi": 0.766,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.3635,
+        "ci_lo": 0.1017,
+        "ci_hi": 0.3955,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v1__LGBM": {
+      "config_version": "v1",
+      "model": "LGBM",
+      "fit_seconds": 40.4,
+      "l2_bootstrap": {
+        "point_estimate": 0.7493,
+        "ci_lo": 0.6287,
+        "ci_hi": 0.765,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.3013,
+        "ci_lo": 0.0951,
+        "ci_hi": 0.3242,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v2__LR": {
+      "config_version": "v2",
+      "model": "LR",
+      "fit_seconds": 249.4,
+      "l2_bootstrap": {
+        "point_estimate": 0.1258,
+        "ci_lo": 0.0608,
+        "ci_hi": 0.172,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.0768,
+        "ci_lo": 0.021,
+        "ci_hi": 0.1011,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v2__LinearSVC": {
+      "config_version": "v2",
+      "model": "LinearSVC",
+      "fit_seconds": 376.2,
+      "l2_bootstrap": {
+        "point_estimate": 0.5695,
+        "ci_lo": 0.4393,
+        "ci_hi": 0.6049,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.2329,
+        "ci_lo": 0.0804,
+        "ci_hi": 0.2676,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v2__RF": {
+      "config_version": "v2",
+      "model": "RF",
+      "fit_seconds": 51.9,
+      "l2_bootstrap": {
+        "point_estimate": 0.6534,
+        "ci_lo": 0.5094,
+        "ci_hi": 0.6999,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.3624,
+        "ci_lo": 0.0817,
+        "ci_hi": 0.4188,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v2__XGB": {
+      "config_version": "v2",
+      "model": "XGB",
+      "fit_seconds": 66.0,
+      "l2_bootstrap": {
+        "point_estimate": 0.8502,
+        "ci_lo": 0.716,
+        "ci_hi": 0.8603,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.3098,
+        "ci_lo": 0.1037,
+        "ci_hi": 0.3302,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    },
+    "v2__LGBM": {
+      "config_version": "v2",
+      "model": "LGBM",
+      "fit_seconds": 47.1,
+      "l2_bootstrap": {
+        "point_estimate": 0.8526,
+        "ci_lo": 0.719,
+        "ci_hi": 0.8616,
+        "n_clusters": 21,
+        "n_flows": 241475
+      },
+      "l6_bootstrap": {
+        "point_estimate": 0.2902,
+        "ci_lo": 0.1068,
+        "ci_hi": 0.3149,
+        "n_clusters": 42679,
+        "n_flows": 1669198
+      }
+    }
+  },
+  "paired_v1_vs_v2_l6": {
+    "LR": {
+      "delta_point_estimate": 0.0,
+      "delta_ci_lo": 0.0,
+      "delta_ci_hi": 0.0,
+      "statistically_meaningful": false
+    },
+    "LinearSVC": {
+      "delta_point_estimate": -0.0038,
+      "delta_ci_lo": -0.0046,
+      "delta_ci_hi": 0.0,
+      "statistically_meaningful": false
+    },
+    "RF": {
+      "delta_point_estimate": -0.1355,
+      "delta_ci_lo": -0.1878,
+      "delta_ci_hi": 0.0146,
+      "statistically_meaningful": false
+    },
+    "XGB": {
+      "delta_point_estimate": 0.0536,
+      "delta_ci_lo": -0.0023,
+      "delta_ci_hi": 0.0673,
+      "statistically_meaningful": false
+    },
+    "LGBM": {
+      "delta_point_estimate": 0.011,
+      "delta_ci_lo": -0.0127,
+      "delta_ci_hi": 0.0121,
+      "statistically_meaningful": false
+    }
+  }
+}

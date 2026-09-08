@@ -1,0 +1,755 @@
+{
+  "_comment": "Experiment evaluation results for drift_diagnostics_v2.",
+  "comparisons": {
+    "lab_vs_cicids": {
+      "n_a": 179607,
+      "n_b": 1669198,
+      "feature_drift": [
+        {
+          "feature": "fwd_pkts_s",
+          "ks_statistic": 0.2505,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0277,
+          "psi": 1.2107,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "flow_pkts_s",
+          "ks_statistic": 0.2485,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0305,
+          "psi": 0.841,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkts",
+          "ks_statistic": 0.1744,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0028,
+          "psi": 0.8292,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_mean",
+          "ks_statistic": 0.407,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0201,
+          "psi": 0.7699,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkts_s",
+          "ks_statistic": 0.2224,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0221,
+          "psi": 0.7463,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Fwd Seg Size Min",
+          "ks_statistic": 0.1005,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0408,
+          "psi": 0.744,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_max",
+          "ks_statistic": 0.403,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0505,
+          "psi": 0.7158,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Packet Length Mean",
+          "ks_statistic": 0.2875,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0107,
+          "psi": 0.6148,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkts",
+          "ks_statistic": 0.1523,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0016,
+          "psi": 0.5305,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Packet Length Max",
+          "ks_statistic": 0.2353,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.045,
+          "psi": 0.4895,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_bytes",
+          "ks_statistic": 0.3659,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.4499,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_mean",
+          "ks_statistic": 0.2471,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0058,
+          "psi": 0.4385,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Average Packet Size",
+          "ks_statistic": 0.2739,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.008,
+          "psi": 0.4226,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_std",
+          "ks_statistic": 0.152,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0049,
+          "psi": 0.4145,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_max",
+          "ks_statistic": 0.1583,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.004,
+          "psi": 0.4051,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_min",
+          "ks_statistic": 0.2502,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.004,
+          "psi": 0.3773,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_min",
+          "ks_statistic": 0.1395,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0045,
+          "psi": 0.3148,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Packet Length Std",
+          "ks_statistic": 0.2249,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0317,
+          "psi": 0.3075,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Packet Length Variance",
+          "ks_statistic": 0.2249,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0094,
+          "psi": 0.3075,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "Fwd Act Data Pkts",
+          "ks_statistic": 0.158,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0008,
+          "psi": 0.306,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_bytes",
+          "ks_statistic": 0.2016,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0075,
+          "psi": 0.3,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "flow_bytes_s",
+          "ks_statistic": 0.1629,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0005,
+          "psi": 0.2609,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_std",
+          "ks_statistic": 0.1854,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0403,
+          "psi": 0.1621,
+          "psi_flag": "moderate"
+        },
+        {
+          "feature": "Down/Up Ratio",
+          "ks_statistic": 0.1491,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.006,
+          "psi": 0.097,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Packet Length Min",
+          "ks_statistic": 0.1855,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0186,
+          "psi": 0.0042,
+          "psi_flag": "none"
+        }
+      ]
+    },
+    "d01_vs_d02": {
+      "n_a": 2762315,
+      "n_b": 2200765,
+      "feature_drift": [
+        {
+          "feature": "Fwd Seg Size Min",
+          "ks_statistic": 0.066,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0144,
+          "psi": 0.1329,
+          "psi_flag": "moderate"
+        },
+        {
+          "feature": "fwd_pkt_len_max",
+          "ks_statistic": 0.0977,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0019,
+          "psi": 0.1233,
+          "psi_flag": "moderate"
+        },
+        {
+          "feature": "Average Packet Size",
+          "ks_statistic": 0.0902,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0025,
+          "psi": 0.1226,
+          "psi_flag": "moderate"
+        },
+        {
+          "feature": "flow_pkts_s",
+          "ks_statistic": 0.0905,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0012,
+          "psi": 0.0922,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "fwd_pkts_s",
+          "ks_statistic": 0.0647,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0012,
+          "psi": 0.0746,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "fwd_pkt_len_mean",
+          "ks_statistic": 0.0951,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0009,
+          "psi": 0.0632,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Packet Length Std",
+          "ks_statistic": 0.0859,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0056,
+          "psi": 0.0594,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Packet Length Variance",
+          "ks_statistic": 0.0859,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0011,
+          "psi": 0.0594,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Packet Length Mean",
+          "ks_statistic": 0.0891,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0034,
+          "psi": 0.0565,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "fwd_pkts",
+          "ks_statistic": 0.0728,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0504,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_pkts_s",
+          "ks_statistic": 0.0643,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0463,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "fwd_bytes",
+          "ks_statistic": 0.0968,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0379,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_pkts",
+          "ks_statistic": 0.0657,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0353,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Packet Length Max",
+          "ks_statistic": 0.0861,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0071,
+          "psi": 0.0302,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "flow_bytes_s",
+          "ks_statistic": 0.0451,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0271,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "fwd_pkt_len_std",
+          "ks_statistic": 0.068,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0006,
+          "psi": 0.0211,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_pkt_len_mean",
+          "ks_statistic": 0.0633,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0043,
+          "psi": 0.0178,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Fwd Act Data Pkts",
+          "ks_statistic": 0.0654,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0173,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_bytes",
+          "ks_statistic": 0.0622,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 0.0171,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_pkt_len_max",
+          "ks_statistic": 0.0621,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0062,
+          "psi": 0.0171,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_pkt_len_std",
+          "ks_statistic": 0.0692,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0042,
+          "psi": 0.0149,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "fwd_pkt_len_min",
+          "ks_statistic": 0.0299,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0009,
+          "psi": 0.011,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Down/Up Ratio",
+          "ks_statistic": 0.0425,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0012,
+          "psi": 0.0077,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "Packet Length Min",
+          "ks_statistic": 0.0008,
+          "ks_pvalue": 0.3474429392991457,
+          "wasserstein_normalised": 0.0001,
+          "psi": 0.0,
+          "psi_flag": "none"
+        },
+        {
+          "feature": "bwd_pkt_len_min",
+          "ks_statistic": 0.0049,
+          "ks_pvalue": 6.048767221858375e-26,
+          "wasserstein_normalised": 0.001,
+          "psi": 0.0,
+          "psi_flag": "none"
+        }
+      ]
+    },
+    "domain_classifier_lab_vs_cicids": {
+      "auc": 0.9887,
+      "distinguishable": true,
+      "top_10_features_by_importance": [
+        {
+          "feature": "flow_pkts_s",
+          "importance": 0.1255
+        },
+        {
+          "feature": "fwd_pkts_s",
+          "importance": 0.1138
+        },
+        {
+          "feature": "bwd_pkts_s",
+          "importance": 0.1063
+        },
+        {
+          "feature": "bwd_pkt_len_mean",
+          "importance": 0.0782
+        },
+        {
+          "feature": "bwd_pkt_len_max",
+          "importance": 0.077
+        },
+        {
+          "feature": "fwd_pkts",
+          "importance": 0.0565
+        },
+        {
+          "feature": "Fwd Seg Size Min",
+          "importance": 0.0495
+        },
+        {
+          "feature": "bwd_bytes",
+          "importance": 0.0477
+        },
+        {
+          "feature": "fwd_pkt_len_max",
+          "importance": 0.0412
+        },
+        {
+          "feature": "Packet Length Max",
+          "importance": 0.0299
+        }
+      ]
+    },
+    "v2_vs_v1_lab": {
+      "overlap_feature_count": 16,
+      "missing_from_v1": [
+        "Average Packet Size",
+        "Down/Up Ratio",
+        "Fwd Act Data Pkts",
+        "Fwd Seg Size Min",
+        "Packet Length Max",
+        "Packet Length Mean",
+        "Packet Length Min",
+        "Packet Length Std",
+        "Packet Length Variance"
+      ],
+      "n_a": 179607,
+      "n_b": 120234,
+      "feature_drift": [
+        {
+          "feature": "fwd_pkt_len_min",
+          "ks_statistic": 0.8044,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0087,
+          "psi": 12.2604,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_mean",
+          "ks_statistic": 0.7156,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0101,
+          "psi": 10.0962,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_max",
+          "ks_statistic": 0.6427,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0113,
+          "psi": 7.9998,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_bytes",
+          "ks_statistic": 0.5711,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0074,
+          "psi": 7.5083,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkts",
+          "ks_statistic": 0.2493,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0028,
+          "psi": 2.364,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "flow_pkts_s",
+          "ks_statistic": 0.4922,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0021,
+          "psi": 2.1705,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkts_s",
+          "ks_statistic": 0.4922,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0021,
+          "psi": 2.146,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkts_s",
+          "ks_statistic": 0.3184,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0023,
+          "psi": 1.963,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_max",
+          "ks_statistic": 0.6232,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.011,
+          "psi": 1.9287,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_min",
+          "ks_statistic": 0.7348,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.006,
+          "psi": 1.8497,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_mean",
+          "ks_statistic": 0.628,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.01,
+          "psi": 1.633,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_bytes",
+          "ks_statistic": 0.5763,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0,
+          "psi": 1.4042,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "flow_bytes_s",
+          "ks_statistic": 0.2557,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0002,
+          "psi": 1.1314,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkts",
+          "ks_statistic": 0.1845,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0016,
+          "psi": 1.1024,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_std",
+          "ks_statistic": 0.128,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0059,
+          "psi": 0.2155,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_std",
+          "ks_statistic": 0.2489,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0058,
+          "psi": 0.004,
+          "psi_flag": "none"
+        }
+      ]
+    },
+    "v1_vs_cicids": {
+      "overlap_feature_count": 16,
+      "missing_from_v1": [
+        "Average Packet Size",
+        "Down/Up Ratio",
+        "Fwd Act Data Pkts",
+        "Fwd Seg Size Min",
+        "Packet Length Max",
+        "Packet Length Mean",
+        "Packet Length Min",
+        "Packet Length Std",
+        "Packet Length Variance"
+      ],
+      "n_a": 120234,
+      "n_b": 1669198,
+      "feature_drift": [
+        {
+          "feature": "fwd_pkt_len_min",
+          "ks_statistic": 0.8125,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.9402,
+          "psi": 12.9485,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_mean",
+          "ks_statistic": 0.5858,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0601,
+          "psi": 9.141,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_max",
+          "ks_statistic": 0.5384,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0337,
+          "psi": 8.5822,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_bytes",
+          "ks_statistic": 0.3718,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0033,
+          "psi": 5.9452,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_bytes",
+          "ks_statistic": 0.2217,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0258,
+          "psi": 1.8014,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "flow_pkts_s",
+          "ks_statistic": 0.4921,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 4.9868,
+          "psi": 1.7242,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkts_s",
+          "ks_statistic": 0.4921,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 8.508,
+          "psi": 1.6932,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_mean",
+          "ks_statistic": 0.3628,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.5469,
+          "psi": 1.4606,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_min",
+          "ks_statistic": 0.4895,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.1231,
+          "psi": 1.4179,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkts_s",
+          "ks_statistic": 0.3746,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.7505,
+          "psi": 1.2128,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkts",
+          "ks_statistic": 0.2279,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0048,
+          "psi": 0.9525,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_max",
+          "ks_statistic": 0.2981,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 1.0564,
+          "psi": 0.883,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "fwd_pkt_len_std",
+          "ks_statistic": 0.2122,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0251,
+          "psi": 0.8764,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkt_len_std",
+          "ks_statistic": 0.229,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.6425,
+          "psi": 0.7554,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "flow_bytes_s",
+          "ks_statistic": 0.1531,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.1113,
+          "psi": 0.4501,
+          "psi_flag": "significant"
+        },
+        {
+          "feature": "bwd_pkts",
+          "ks_statistic": 0.1425,
+          "ks_pvalue": 0.0,
+          "wasserstein_normalised": 0.0057,
+          "psi": 0.2495,
+          "psi_flag": "significant"
+        }
+      ]
+    }
+  }
+}

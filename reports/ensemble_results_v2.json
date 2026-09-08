@@ -1,0 +1,62 @@
+{
+  "_comment": "Experiment evaluation results for ensemble_results_v2.",
+  "levels": {
+    "L2": {
+      "soft_voting": {
+        "macro_f1": 0.8518,
+        "benign_fpr": 0.0028
+      },
+      "stacking": {
+        "macro_f1": 0.7579,
+        "benign_fpr": 0.0052
+      },
+      "best_single_model_macro_f1": 0.8526
+    },
+    "L4": {
+      "soft_voting": {
+        "mean_macro_f1": 0.8647,
+        "sd_macro_f1": 0.0341,
+        "per_fold": [
+          0.8372,
+          0.9028,
+          0.854
+        ]
+      },
+      "stacking": {
+        "mean_macro_f1": 0.8406,
+        "sd_macro_f1": 0.0512,
+        "per_fold": [
+          0.799,
+          0.8977,
+          0.825
+        ]
+      },
+      "best_single_model_lodo_mean": 0.8197
+    },
+    "L6": {
+      "soft_voting": {
+        "macro_f1": 0.374,
+        "benign_fpr": 0.2101
+      },
+      "stacking": {
+        "macro_f1": 0.3138,
+        "benign_fpr": 0.246
+      },
+      "best_single_model_macro_f1": 0.3624
+    }
+  },
+  "_lodo_fold_checkpoint": {
+    "D01": {
+      "soft_f1": 0.8372,
+      "stack_f1": 0.799
+    },
+    "D02": {
+      "soft_f1": 0.9028,
+      "stack_f1": 0.8977
+    },
+    "D03": {
+      "soft_f1": 0.854,
+      "stack_f1": 0.825
+    }
+  }
+}

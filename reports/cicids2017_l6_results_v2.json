@@ -1,0 +1,131 @@
+{
+  "_comment": "Experiment evaluation results for cicids2017_l6_results_v2.",
+  "eval_days": [
+    "tuesday",
+    "wednesday",
+    "friday"
+  ],
+  "n_eval_flows": 1669198,
+  "eval_label_distribution": {
+    "BENIGN": 1111000,
+    "DOS_HULK": 378076,
+    "PORT_SCAN": 158881,
+    "FTP_BRUTE": 10361,
+    "SSH_BRUTE": 5916,
+    "DOS_SLOWLORIS": 4964
+  },
+  "models": {
+    "LR": {
+      "hyperparameters": {
+        "C": 1.0,
+        "class_weight": null
+      },
+      "linearsvc_fell_back_to_logreg": null,
+      "macro_f1": 0.0768,
+      "per_class_f1": {
+        "BENIGN": 0.2841,
+        "DOS_HULK": 0.4072,
+        "DOS_SLOWLORIS": 0.0,
+        "FTP_BRUTE": 0.0,
+        "ICMP_FLOOD": 0.0,
+        "PORT_SCAN": 0.0,
+        "SSH_BRUTE": 0.0,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.0
+      },
+      "benign_fpr": 0.8344,
+      "fit_seconds": 213.6
+    },
+    "LinearSVC": {
+      "hyperparameters": {
+        "C": 1.0,
+        "class_weight": "balanced"
+      },
+      "linearsvc_fell_back_to_logreg": false,
+      "macro_f1": 0.2329,
+      "per_class_f1": {
+        "BENIGN": 0.7473,
+        "DOS_HULK": 0.7351,
+        "DOS_SLOWLORIS": 0.0216,
+        "FTP_BRUTE": 0.1457,
+        "ICMP_FLOOD": 0.0,
+        "PORT_SCAN": 0.1713,
+        "SSH_BRUTE": 0.2756,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.0
+      },
+      "benign_fpr": 0.3315,
+      "fit_seconds": 335.8
+    },
+    "RF": {
+      "hyperparameters": {
+        "n_estimators": 214,
+        "max_depth": 6,
+        "min_samples_leaf": 14,
+        "class_weight": null
+      },
+      "linearsvc_fell_back_to_logreg": null,
+      "macro_f1": 0.3624,
+      "per_class_f1": {
+        "BENIGN": 0.757,
+        "DOS_HULK": 0.6739,
+        "DOS_SLOWLORIS": 0.0476,
+        "FTP_BRUTE": 0.4973,
+        "ICMP_FLOOD": 0.0,
+        "PORT_SCAN": 0.86,
+        "SSH_BRUTE": 0.0631,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.0
+      },
+      "benign_fpr": 0.3908,
+      "fit_seconds": 12.4
+    },
+    "XGB": {
+      "hyperparameters": {
+        "n_estimators": 356,
+        "max_depth": 3,
+        "learning_rate": 0.2526027101084678,
+        "subsample": 0.7258200596287043,
+        "class_weight": "balanced"
+      },
+      "linearsvc_fell_back_to_logreg": null,
+      "macro_f1": 0.3098,
+      "per_class_f1": {
+        "BENIGN": 0.824,
+        "DOS_HULK": 0.6472,
+        "DOS_SLOWLORIS": 0.0,
+        "FTP_BRUTE": 0.2309,
+        "ICMP_FLOOD": 0.0,
+        "PORT_SCAN": 0.7654,
+        "SSH_BRUTE": 0.0111,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.0
+      },
+      "benign_fpr": 0.2295,
+      "fit_seconds": 26.8
+    },
+    "LGBM": {
+      "hyperparameters": {
+        "n_estimators": 108,
+        "num_leaves": 195,
+        "learning_rate": 0.16967533607196555,
+        "class_weight": null
+      },
+      "linearsvc_fell_back_to_logreg": null,
+      "macro_f1": 0.2902,
+      "per_class_f1": {
+        "BENIGN": 0.8351,
+        "DOS_HULK": 0.657,
+        "DOS_SLOWLORIS": 0.004,
+        "FTP_BRUTE": 0.4086,
+        "ICMP_FLOOD": 0.0,
+        "PORT_SCAN": 0.3064,
+        "SSH_BRUTE": 0.1108,
+        "SYN_FLOOD": 0.0,
+        "UDP_DDOS": 0.0
+      },
+      "benign_fpr": 0.2026,
+      "fit_seconds": 13.0
+    }
+  }
+}
